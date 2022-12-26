@@ -1,25 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import ClockWork from './components/container/clock_work';
+import TaskListComponent from './components/container/task_list';
+import Greeting from './components/pure/greeting';
+import GreetingFunction from './components/pure/greetingFunction';
+import GreetingStyled from './components/pure/greetingStyled';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      {/*<Greeting name="Agus"></Greeting>*/}
+      {/*<GreetingFunction name="Agus"></GreetingFunction>*/}
+      <TaskListComponent></TaskListComponent>
+      <GreetingStyled name = "Agustin"></GreetingStyled>
+      <ClockWork></ClockWork>
     </div>
-  );
+  )
 }
 
 export default App;
