@@ -20,7 +20,9 @@ const TaskListComponent = () => {
 
     useEffect(() => {
         console.log('Task State has been modified');
-        setLoading(false);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
         return () => {
             console.log('TaskList component is going to unmount...');
         };
@@ -47,25 +49,14 @@ const TaskListComponent = () => {
 
     const addTask = (task) => {
         console.log('Complete this Task: ', task);
-        const index = tasks.indexOf(task);
         const tempTasks = [...tasks];
         tempTasks.push(task);
         setTasks(tempTasks);
     }
  
-
-    return (
-        <div className='col-12'>
-            <div className='card'>
-            {/*Card Header : Title */}
-                <div className='card-header p-3'>
-                    <h5>
-                        Your Task: 
-                    </h5>
-                </div>
-            {/*Card Body : content*/}
-                <div className='card-body' data-mdb-perfect-scrollbar='true' style={ { position: 'relative', height: '400px' } }>
-                    <table>
+    const Table = () => {
+        return(
+            <table>
                         <thead>
                             <tr>
                                 <th scope='col'>Title</th>
@@ -88,9 +79,43 @@ const TaskListComponent = () => {
                         )}  
                         </tbody>   
                     </table>
+        )
+    }
+
+    let tasksTable;
+
+    if (tasks.length > 0) {
+        tasksTable = <Table></Table>
+    } else {
+        tasksTable = (
+        <div>
+            <h3>There are no Tasks to show</h3>
+            <p>Please, create one</p>
+        </div>)
+    }
+
+    const loadingStyle = {
+        color: 'gray',
+        fontSize: '30px',
+        fontWeight: 'bold'
+    };
+
+    return (
+        <div className='col-12'>
+            <div className='card'>
+            {/*Card Header : Title */}
+                <div className='card-header p-3'>
+                    <h5>
+                        Your Task: 
+                    </h5>
                 </div>
-                <TaskForm add={addTask}></TaskForm>
+            {/*Card Body : content*/}
+                <div className='card-body' data-mdb-perfect-scrollbar='true' style={ { position: 'relative', height: '400px' } }>
+                {/*TO DO: Add a spinner loader */}
+                    {loading ? (<p style={loadingStyle}>Loading Task...</p>) : tasksTable}
+                </div>   
             </div>
+            <TaskForm add={addTask} length={tasks.length}></TaskForm>
         </div>
     );
 };
