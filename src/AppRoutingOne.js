@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import NotFoundPage from './pages/404/NotFoundPage';
@@ -9,7 +11,27 @@ import LoginPage from './pages/auth/LoginPage';
 
 const AppRoutingOne = () => {
 
-  const logged = false
+  let logged = false;
+
+
+  let taskList = [
+    {
+      id: 1,
+      name: 'Task 1',
+      description: 'Your first task'
+    },
+    {
+      id: 2,
+      name: 'Task 2',
+      description: 'Your second task'
+    }
+  ]
+
+
+  useEffect(() => {
+    localStorage.getItem('credentials');
+    console.log('User logged?', logged);
+  },[]);
 
   return (
     <div>
@@ -18,6 +40,8 @@ const AppRoutingOne = () => {
         <Link to='/about'>| ABOUT |</Link>
         <Link to='/faqs'>| FAQs |</Link>
         <Link to='/profile'>| PROFILE |</Link>
+        <Link to='/task/1'>| Task 1 |</Link>
+        <Link to='/task/2'>| Task 2 |</Link>
         <Link to='/not-found'>| No existing Route |</Link>
         <Link to='/tasks'>| To Do List |</Link>
         <Link to='/login'>| Login |</Link>
@@ -42,7 +66,14 @@ const AppRoutingOne = () => {
           }>
           </Route>
           <Route path='/tasks' element={<TasksPage/>}></Route>
-          <Route path='/task/:id' element={<TasksDetailPage/>}></Route>
+          <Route 
+            path='/task/:id' 
+            render= {
+              ({match}) => (<TasksDetailPage task={taskList[match.params.id-1]}/>)
+            }
+            >
+
+            </Route>
         </Routes>
       </main>
     </div>
