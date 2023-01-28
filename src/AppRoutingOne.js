@@ -8,24 +8,25 @@ import ProfilePage from './pages/profile/profilePage';
 import TasksPage from './pages/tasks/TasksPage';
 import TasksDetailPage from './pages/tasks/tasksDetailPage';
 import LoginPage from './pages/auth/LoginPage';
+import StatePage from './pages/home/statePage';
 
 const AppRoutingOne = () => {
 
   let logged = false;
 
-
   let taskList = [
     {
-      id: 1,
-      name: 'Task 1',
-      description: 'Your first task'
+        id: 1,
+        name: 'Task 1',
+        description: 'My first Task'
     },
     {
-      id: 2,
-      name: 'Task 2',
-      description: 'Your second task'
+        id: 1,
+        name: 'Task 2',
+        description: 'My second Task'
     }
-  ]
+]
+  
 
 
   useEffect(() => {
@@ -48,32 +49,14 @@ const AppRoutingOne = () => {
       </aside>
       <main>
         <Routes>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path='/login' element={
-            logged ?
-            (<Navigate to='/'/>) 
-            :
-            (<LoginPage/>)
-          }>
-          </Route>
-          <Route path='/not-found' element={<NotFoundPage/>}></Route>
-          <Route path='/about' element={<AboutPage/>}></Route>
-          <Route path='/profile' element={
-            logged ?
-          (<ProfilePage/>)
-          :
-          (<Navigate to='/login' replace={true}/>)
-          }>
-          </Route>
-          <Route path='/tasks' element={<TasksPage/>}></Route>
-          <Route 
-            path='/task/:id' 
-            render= {
-              ({match}) => (<TasksDetailPage task={taskList[match.params.id-1]}/>)
-            }
-            >
-
-            </Route>
+          <Route path='/' element={<HomePage logged={logged}/>}/>
+          <Route path='/online-state' element={<StatePage/>}/>
+          <Route path='/login' element={ logged ? <HomePage/> : <LoginPage/>}/>
+          <Route path='/not-found' element={<NotFoundPage/>}/>
+          <Route path='/about' element={<AboutPage/>}/>
+          <Route path='/profile' element={ logged ? <ProfilePage/> : <Navigate to='/login' replace/>}/>
+          <Route path='/tasks' element={<TasksPage/>}/>
+          <Route path='/task/:id' element={<TasksDetailPage task={taskList}/>}/>
         </Routes>
       </main>
     </div>
