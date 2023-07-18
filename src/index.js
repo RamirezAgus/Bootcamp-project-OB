@@ -10,16 +10,23 @@ import AppRoutingOne from './AppRoutingOne';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutingFinal from './AppRoutingFinal';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { onServiceWorkerUpdate } from '@3m1/service-worker-updater';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
-    {/* <BrowserRouter>
+     {/*<BrowserRouter>
       <AppRoutingOne/>
       <AppRoutingFinal/>
     </BrowserRouter>*/}
   </React.StrictMode>
 );
+
+serviceWorkerRegistration.register({
+  onUpdate: onServiceWorkerUpdate
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

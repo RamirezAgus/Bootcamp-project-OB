@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllPagedUsers, getAllUsers, getUserDetails } from '../../services/fetchServices';
+import { getAllPagedUsers, getAllUsers, getUserDetails, login } from '../../services/fetchServices';
 
 const FetchExamples = () => {
 
@@ -65,8 +65,24 @@ const FetchExamples = () => {
         })
     };
 
+    const authUser = () => {
+        login('eve.holt@reqres.in', 'cityslicka')
+        .then((response) => {
+            console.log('TOKEN', response.token);
+            sessionStorage.setItem('token', response.token)
+        })
+        .catch((error) => {
+            alert(`Error while login user: ${error}`)
+        })
+        .finally(() => {
+            console.log('Ended login user. Navigate to Home');
+        })
+    }
+
     return (
         <div>
+            {/*Button to simulate Login */}
+            <button onClick={authUser}>Auth User</button>
             <h2>User: </h2>
             {
                 users.map((users, index) => 
@@ -79,16 +95,18 @@ const FetchExamples = () => {
             <button onClick={() => obtainPagedUsers(1)}>1</button>
             <button onClick={() => obtainPagedUsers(2)}>2</button>
             <div>
-                <h3>User Details</h3>
+                
                 {
-                    selectedUser && (
+                    selectedUser !== null ? (
                         <div>
+                            <h3>User Details</h3>
                             <p>Name: {selectedUser.first_name}</p>
                             <p>Last Name: {selectedUser.last_name}</p>
                             <p>Email: {selectedUser.email}</p>
-                            <img src={selectedUser.avatar} alt='*' style={{height: '50px', width: '50px'}}/>
+                            <img src={selectedUser.avatar} alt='*' style={{height: '150px', width: '150px'}}/>
                         </div>
-                        )
+                        ) :
+                        (<h6>Please click on a User to see its details</h6>)
                 }
             </div>
         </div>
